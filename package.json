@@ -1,0 +1,13 @@
+{
+  "name": "matus-cak-backend",
+  "version": "1.0.0",
+  "description": "Backend pre Matúš Čák Trenčiansky - Kartová Hra",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.0.0"
+  }
+}
