@@ -3,90 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zoznam Kariet</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Cards Display</title>
     <style>
         body {
-            font-family: 'Manrope', sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-            margin: 0;
-            padding: 20px;
+            font-family: Arial, sans-serif;
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f0f0f0;
         }
         .card {
-            width: 220px;
-            background-color: #fff;
-            border: 2px solid #888;
+            border: 2px solid #333;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 10px;
-        }
-        .card-type {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        .card-art {
-            font-size: 4em;
-            margin: 20px 0;
-        }
-        .card-description {
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .card-effect {
-            text-align: center;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }
-        .card-info {
-            width: 220px;
-            background-color: #e0e0e0;
             padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            box-sizing: border-box;
             margin: 10px;
+            background-color: #fff;
+            text-align: center;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card.l {
+            width: 200px;
+            height: 300px;
+        }
+        .card.m {
+            width: 150px;
+            height: 225px;
+        }
+        .card.s {
+            width: 120px;
+            height: 160px;
+        }
+        .card h3 {
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+        .card p {
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+        .card .art {
+            font-size: 3em;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
-    <div id="cards-container"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            fetch('json/cards.json')
-                .then(response => response.json())
-                .then(cards => {
-                    const container = document.getElementById('cards-container');
-                    cards.forEach(card => {
-                        const cardElement = document.createElement('div');
-                        cardElement.classList.add('card');
+<script>
+    fetch('json/cards.json')
+        .then(response => response.json())
+        .then(cards => {
+            cards.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card', card.size);
 
-                        cardElement.innerHTML = `
-                            <div class="card-type">${card.type}</div>
-                            <div class="card-art">${card.art}</div>
-                            <div class="card-description">${card.name}</div>
-                            <div class="card-effect">${card.effect}</div>
-                        `;
+                cardDiv.innerHTML = `
+                    <div class="art">${card.art}</div>
+                    <h3>${card.name}</h3>
+                    <p><strong>Kategória:</strong> ${card.category}</p>
+                    <p><strong>Info:</strong> ${card.info}</p>
+                    <p><strong>Veľkosť:</strong> ${card.size.toUpperCase()}</p>
+                    <p><strong>Počet:</strong> ${card.count}</p>
+                `;
 
-                        const cardInfo = document.createElement('div');
-                        cardInfo.classList.add('card-info');
-                        cardInfo.innerHTML = `Veľkosť: ${card.size.toUpperCase()} | Počet v hre: ${card.count}`;
+                document.body.appendChild(cardDiv);
+            });
+        })
+        .catch(error => console.error('Error loading cards:', error));
+</script>
 
-                        container.appendChild(cardElement);
-                        container.appendChild(cardInfo);
-                    });
-                });
-        });
-    </script>
 </body>
 </html>
