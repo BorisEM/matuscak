@@ -10,8 +10,9 @@
 </head>
 <body>
     <h1>Vitaj v hre Matúš Čák Trenčiansky</h1>
-    <div id="main-container">
-        <div id="game-container">
+    <div id="main-container" style="display: flex; width: 100%; height: 90vh;">
+        <!-- Hracia plocha (2/3 šírky) -->
+        <div id="game-container" style="flex: 2; display: flex; flex-direction: column;">
             <div id="opponent-area">
                 <div id="opponent-castles" class="castle-area">
                     <!-- Hrady protihráča -->
@@ -51,16 +52,17 @@
             </div>
         </div>
 
-        <div id="chat-container">
-            <div id="status-bar">
-                <div id="status-indicator"></div>
+        <!-- Pravá strana (1/3 šírky) -->
+        <div id="chat-container" style="flex: 1; display: flex; flex-direction: column; margin-left: 20px;">
+            <div id="status-bar" style="display: flex; align-items: center; margin-bottom: 10px;">
+                <div id="status-indicator" style="width: 10px; height: 10px; border-radius: 50%; background-color: red; margin-right: 10px;"></div>
                 <span id="status-text">Stav pripojenia</span>
             </div>
             <button id="invite-player">Pozvať hráča</button>
             <input type="text" id="game-link" placeholder="Link na chat" readonly>
             <button id="start-game">Začať hru</button>
-            <div id="chat-log"></div>
-            <div id="message-input">
+            <div id="chat-log" style="flex: 1; overflow-y: auto; margin: 10px 0; padding: 10px; border: 1px solid #ccc; background-color: #fafafa; border-radius: 5px;"></div>
+            <div id="message-input" style="display: flex; gap: 10px;">
                 <input type="text" id="message" placeholder="Napíš správu...">
                 <button id="send-message">Odoslať</button>
             </div>
