@@ -10,55 +10,60 @@
 </head>
 <body>
     <h1>Vitaj v hre Matúš Čák Trenčiansky</h1>
-    <div id="game-container">
-        <div id="opponent-area">
-            <div id="opponent-castles" class="castle-area">
-                <!-- Hrady protihráča -->
-                <div class="castle-placeholder">Hrad 1</div>
-                <div class="castle-placeholder">Hrad 2</div>
-                <div class="castle-placeholder">Hrad 3</div>
-                <div class="castle-placeholder">Hrad 4</div>
-                <div class="castle-placeholder">Hrad 5</div>
+    <div id="main-container">
+        <div id="game-container">
+            <div id="opponent-area">
+                <div id="opponent-castles" class="castle-area">
+                    <!-- Hrady protihráča -->
+                    <div class="castle-placeholder">Hrad 1</div>
+                    <div class="castle-placeholder">Hrad 2</div>
+                    <div class="castle-placeholder">Hrad 3</div>
+                    <div class="castle-placeholder">Hrad 4</div>
+                    <div class="castle-placeholder">Hrad 5</div>
+                </div>
+                <div id="opponent-cards" class="card-area">
+                    <!-- Karty protihráča (rub kariet) -->
+                    <div class="card-back-placeholder">Karta</div>
+                    <div class="card-back-placeholder">Karta</div>
+                    <div class="card-back-placeholder">Karta</div>
+                    <div class="card-back-placeholder">Karta</div>
+                    <div class="card-back-placeholder">Karta</div>
+                </div>
             </div>
-            <div id="opponent-cards" class="card-area">
-                <!-- Karty protihráča (rub kariet) -->
-                <div class="card-back-placeholder">Karta</div>
-                <div class="card-back-placeholder">Karta</div>
-                <div class="card-back-placeholder">Karta</div>
-                <div class="card-back-placeholder">Karta</div>
-                <div class="card-back-placeholder">Karta</div>
+
+            <div id="pile-area" class="pile-area">
+                <div class="pile-placeholder">Kopa na ťahanie</div>
+                <div class="pile-placeholder">Kopa na odkladanie</div>
+            </div>
+
+            <div id="player-area">
+                <div id="player-castles" class="castle-area">
+                    <!-- Hrady hráča -->
+                    <div class="castle-placeholder">Hrad 1</div>
+                    <div class="castle-placeholder">Hrad 2</div>
+                    <div class="castle-placeholder">Hrad 3</div>
+                    <div class="castle-placeholder">Hrad 4</div>
+                    <div class="castle-placeholder">Hrad 5</div>
+                </div>
+                <div id="player-cards" class="card-area">
+                    <!-- Karty hráča (líc kariet) -->
+                </div>
             </div>
         </div>
 
-        <div id="pile-area" class="pile-area">
-            <div class="pile-placeholder">Kopa na ťahanie</div>
-            <div class="pile-placeholder">Kopa na odkladanie</div>
-        </div>
-
-        <div id="player-area">
-            <div id="player-castles" class="castle-area">
-                <!-- Hrady hráča -->
-                <div class="castle-placeholder">Hrad 1</div>
-                <div class="castle-placeholder">Hrad 2</div>
-                <div class="castle-placeholder">Hrad 3</div>
-                <div class="castle-placeholder">Hrad 4</div>
-                <div class="castle-placeholder">Hrad 5</div>
+        <div id="chat-container">
+            <div id="status-bar">
+                <div id="status-indicator"></div>
+                <span id="status-text">Stav pripojenia</span>
             </div>
-            <div id="player-cards" class="card-area">
-                <!-- Karty hráča (líc kariet) -->
+            <button id="invite-player">Pozvať hráča</button>
+            <input type="text" id="game-link" placeholder="Link na chat" readonly>
+            <button id="start-game">Začať hru</button>
+            <div id="chat-log"></div>
+            <div id="message-input">
+                <input type="text" id="message" placeholder="Napíš správu...">
+                <button id="send-message">Odoslať</button>
             </div>
-        </div>
-    </div>
-
-    <div id="chat-container">
-        <h2>Chat</h2>
-        <button id="invite-player">Pozvať hráča</button>
-        <input type="text" id="game-link" placeholder="Link na chat" readonly>
-        <button id="start-game">Začať hru</button>
-        <div id="chat-log"></div>
-        <div id="message-input">
-            <input type="text" id="message" placeholder="Napíš správu...">
-            <button id="send-message">Odoslať</button>
         </div>
     </div>
 </body>
