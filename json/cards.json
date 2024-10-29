@@ -1,0 +1,142 @@
+[
+    {
+      "id": 1,
+      "name": "Stráž",
+      "size": "s",
+      "type": "🛡️",
+      "info": "Karta, ktorá ťa chráni proti útočným kartám súpera. Ak ju zahráš nemusíš vykonať úkon súperovej útočnej hracej karty.",
+      "art": "🛡️",
+      "effect": "Chráni ťa proti útočným kartám súpera.",
+      "count": 2
+    },
+    {
+      "id": 2,
+      "name": "Mučiareň",
+      "size": "s",
+      "type": "⚔️",
+      "info": "Po zahratí tejto karty ti musí súper ukázať svoje karty na ruke. Môžeš mu ktorukoľvek zobrať a ako náhradu mu dať jednu svoju nepotrebnú kartu. Nemôžeš zobrať kartu zo zálohy.",
+      "art": "🏰",
+      "effect": "Po zahratí ti musí súper ukázať svoje karty a môžeš mu jednu zobrať.",
+      "count": 1
+    },
+    {
+      "id": 3,
+      "name": "Mor",
+      "size": "s",
+      "type": "☠️",
+      "info": "Po zahratí tejto karty musí súper odhodiť jednu kartu z ruky.",
+      "art": "☠️",
+      "effect": "Súper musí odhodiť jednu kartu z ruky.",
+      "count": 1
+    },
+    {
+      "id": 4,
+      "name": "Vyslanec",
+      "size": "s",
+      "type": "⚔️",
+      "info": "Po zahratí tejto karty ti musí súper darovať jednu kartu z ruky.",
+      "art": "💌",
+      "effect": "Súper ti daruje jednu kartu z ruky.",
+      "count": 1
+    },
+    {
+      "id": 5,
+      "name": "Hrad",
+      "size": "m",
+      "type": "👑",
+      "info": "Zahratím tejto karty a zaplatením potrebnej čiastky si môžeš postaviť hrad.",
+      "art": "🏰",
+      "effect": "Zahratím tejto karty a zaplatením potrebnej čiastky si môžeš postaviť hrad.",
+      "count": 4
+    },
+    {
+      "id": 6,
+      "name": "Mecenáš",
+      "size": "s",
+      "type": "👑",
+      "info": "Zahratím tejto karty si môžeš postaviť nasledujúci hrad bez zaplatenia potrebnej čiastky.",
+      "art": "💰",
+      "effect": "Postaviť hrad bez zaplatenia potrebnej čiastky.",
+      "count": 1
+    },
+    {
+      "id": 7,
+      "name": "Veliteľ",
+      "size": "s",
+      "type": "⚔️",
+      "info": "Po zahratí tejto karty a zaplatenej potrebnej čiastky môžeš poslať vojsko na súperov hrad v sile, koľko máš prostriedkov na kúpu vojska.",
+      "art": "⚔️",
+      "effect": "Môžeš poslať vojsko na súperov hrad po zaplatení potrebnej čiastky.",
+      "count": 3
+    },
+    {
+      "id": 8,
+      "name": "Matúš Čák",
+      "size": "m",
+      "type": "👑",
+      "info": "Zahratím tejto karty môžeš dosadiť nasledujúceho kastelána do svojho hradu.",
+      "art": "👑",
+      "effect": "Dosadiť nasledujúceho kastelána do svojho hradu.",
+      "count": 4
+    },
+    {
+      "id": 9,
+      "name": "Mudrc",
+      "size": "s",
+      "type": "🧠",
+      "info": "Počas tvojej hry ti nemôže klesnúť počet kariet na ruke pod dve. Zahratím tejto karty môžeš zahrať všetky karty a v tom kole neplatí pre teba pravidlo dvoch kariet.",
+      "art": "🧠",
+      "effect": "Nemôže ti klesnúť počet kariet pod dve a môžeš zahrať všetky karty.",
+      "count": 2
+    },
+    {
+      "id": 10,
+      "name": "Spojenec",
+      "size": "s",
+      "type": "🤝",
+      "info": "Táto karta zdvojnásobuje súčasne zahranú vladársku kartu. Ak tá vladárska karta oprávňuje na potiahnutie 2 kariet, tak pri zahraní karty SPOJENEC si môžeš potiahnuť karty 4.",
+      "art": "🤝",
+      "effect": "Zdvojnásobuje efekt vladárskej karty.",
+      "count": 2
+    },
+    {
+      "id": 11,
+      "name": "Cirkevná kliatba",
+      "size": "s",
+      "type": "⛪",
+      "info": "Potiahnutím karty KLIATBA končí tvoja hra. Kartu vyhodíš na odkladaciu kopu, ak máš na ruke viac kariet ako 5 vyhádžeš na okladaciu kopu zvyšné karty aby si ich mal len 5.",
+      "art": "⛪",
+      "effect": "Kliatba končí tvoju hru a odhadzuješ karty nad 5.",
+      "count": 2
+    },
+    {
+      "id": 12,
+      "name": "Dukát",
+      "size": "l",
+      "type": "💰",
+      "info": "Táto karta predstavuje 1 dukát, ktorý môžeš použiť na rôzne akcie v hre.",
+      "art": "🔶",
+      "effect": "Hodnota: 1 dukát",
+      "count": 10
+    },
+    {
+      "id": 13,
+      "name": "Dvojdukát",
+      "size": "l",
+      "type": "💰",
+      "info": "Táto karta predstavuje 2 dukáty, ktoré môžeš použiť na rôzne akcie v hre.",
+      "art": "🔶🔶",
+      "effect": "Hodnota: 2 dukáty",
+      "count": 6
+    },
+    {
+      "id": 14,
+      "name": "Trojdukát",
+      "size": "l",
+      "type": "💰",
+      "info": "Táto karta predstavuje 3 dukáty, ktoré môžeš použiť na rôzne akcie v hre.",
+      "art": "🔶🔶🔶",
+      "effect": "Hodnota: 3 dukáty",
+      "count": 4
+    }
+]
