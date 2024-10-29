@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <script src="js/deck.js"></script>  
     <title>Basic Layout</title>
     <style>
         body {
@@ -206,10 +207,15 @@
                 </div>
             </div>
             <!-- Kopa na ťahanie a kopa na odkladanie -->
-            <div class="deck-section">
-                <div class="deck">Kopa ťahania</div>
-                <div class="discard">Kopa odkladania</div>
-            </div>
+          <div class="deck-section">
+    <!-- Kopa ťahania -->
+    <div class="deck" id="drawPile">Kopa ťahania</div>
+    <!-- Kopa odkladania -->
+    <div class="discard" id="discardPile">Kopa odkladania</div>
+</div>
+
+
+
             <!-- Moje hrady a kasteláni -->
             <div class="castle-section">
                 <div class="castle-pair">
@@ -225,16 +231,10 @@
                     <div class="card-small">Kastelán</div>
                 </div>
             </div>
-            <!-- Moje hracie karty -->
-            <div class="player-hand">
-                <div class="card">1</div>
-                <div class="card">2</div>
-                <div class="card">3</div>
-                <div class="card">4</div>
-                <div class="card">5</div>
-                <div class="card">Záložná karta 1</div>
-                <div class="card">Záložná karta 2</div>
-            </div>
+          <!-- Moje hracie karty -->
+            <div class="player-hand" id="playerHand">
+                <!-- Hráčove karty sa tu pridávajú -->
+</div>
         </div>
         <div class="right-section">
             <div class="control-section">
@@ -245,7 +245,7 @@
                     <input type="text" class="link-input" id="gameLink" placeholder="Vygenerovaný link" readonly>
                     <button class="button" id="copyLinkButton">Kopírovať</button>
                 </div>
-                <button class="button" id="startGameButton">Spustiť hru</button>
+                <button class="button" id="startGameButton" onclick="initializeDeck()">Spustiť hru</button>
                 <div class="log-section" id="gameLog">Log hry...</div>
             </div>
             <div class="chat-section">
