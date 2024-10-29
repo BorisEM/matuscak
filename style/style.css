@@ -30,7 +30,7 @@ h1 {
     margin: 10px 0;
 }
 
-.card-placeholder {
+.card-placeholder, .card-back-placeholder {
     width: 100px;
     height: 150px;
     background-color: #ccc;
@@ -44,10 +44,29 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.card-back-placeholder {
+    background-color: #888;
+    color: #fff;
+}
+
 .castle-area {
     display: flex;
     gap: 20px;
     margin: 20px 0;
+}
+
+.castle-placeholder {
+    width: 120px;
+    height: 100px;
+    background-color: #ddd;
+    border: 2px solid #999;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .pile-area {
