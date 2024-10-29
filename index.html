@@ -5,29 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matúš Čák Trenčiansky - Stolová hra</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style/style.css">
-    <script defer src="js/script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
     <h1>Vitaj v hre Matúš Čák Trenčiansky</h1>
     <div id="game-container">
-        <div id="opponent-cards" class="card-area">
-            <!-- Karty protihráča (rub kariet) -->
+        <div id="opponent-area">
+            <div id="opponent-castles" class="castle-area">
+                <!-- Hrady protihráča -->
+                <div class="castle-placeholder">Hrad 1</div>
+                <div class="castle-placeholder">Hrad 2</div>
+                <div class="castle-placeholder">Hrad 3</div>
+                <div class="castle-placeholder">Hrad 4</div>
+                <div class="castle-placeholder">Hrad 5</div>
+            </div>
+            <div id="opponent-cards" class="card-area">
+                <!-- Karty protihráča (rub kariet) -->
+                <div class="card-back-placeholder">Karta</div>
+                <div class="card-back-placeholder">Karta</div>
+                <div class="card-back-placeholder">Karta</div>
+                <div class="card-back-placeholder">Karta</div>
+                <div class="card-back-placeholder">Karta</div>
+            </div>
         </div>
-        <div id="opponent-castle-area" class="castle-area">
-            <!-- Hrady protihráča -->
-        </div>
-        <div id="draw-pile" class="pile-area">
+
+        <div id="pile-area" class="pile-area">
             <div class="pile-placeholder">Kopa na ťahanie</div>
             <div class="pile-placeholder">Kopa na odkladanie</div>
         </div>
-        <div id="player-castle-area" class="castle-area">
-            <!-- Hrady hráča -->
-        </div>
-        <div id="player-cards" class="card-area">
-            <!-- Karty hráča (líc kariet) -->
+
+        <div id="player-area">
+            <div id="player-castles" class="castle-area">
+                <!-- Hrady hráča -->
+                <div class="castle-placeholder">Hrad 1</div>
+                <div class="castle-placeholder">Hrad 2</div>
+                <div class="castle-placeholder">Hrad 3</div>
+                <div class="castle-placeholder">Hrad 4</div>
+                <div class="castle-placeholder">Hrad 5</div>
+            </div>
+            <div id="player-cards" class="card-area">
+                <!-- Karty hráča (líc kariet) -->
+            </div>
         </div>
     </div>
+
     <div id="chat-container">
         <h2>Chat</h2>
         <button id="invite-player">Pozvať hráča</button>
