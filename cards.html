@@ -14,7 +14,7 @@
             padding: 20px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 20px;
         }
         .card {
@@ -28,6 +28,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-bottom: 10px;
         }
         .card-type {
             font-size: 1.5em;
@@ -47,10 +48,13 @@
             font-size: 0.9em;
             margin-bottom: 10px;
         }
-        .card-size, .card-count {
+        .card-info {
+            width: 100%;
+            background-color: #e0e0e0;
+            padding: 10px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 0.9em;
-            margin-bottom: 5px;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -64,21 +68,22 @@
                 .then(cards => {
                     const container = document.getElementById('cards-container');
                     cards.forEach(card => {
-                        for (let i = 0; i < card.count; i++) {
-                            const cardElement = document.createElement('div');
-                            cardElement.classList.add('card');
+                        const cardElement = document.createElement('div');
+                        cardElement.classList.add('card');
 
-                            cardElement.innerHTML = `
-                                <div class="card-type">${card.type}</div>
-                                <div class="card-art">${card.art}</div>
-                                <div class="card-description">${card.name}</div>
-                                <div class="card-effect">${card.effect}</div>
-                                <div class="card-size">Veľkosť: ${card.size.toUpperCase()}</div>
-                                <div class="card-count">Počet v hre: ${card.count}</div>
-                            `;
+                        cardElement.innerHTML = `
+                            <div class="card-type">${card.type}</div>
+                            <div class="card-art">${card.art}</div>
+                            <div class="card-description">${card.name}</div>
+                            <div class="card-effect">${card.effect}</div>
+                        `;
 
-                            container.appendChild(cardElement);
-                        }
+                        const cardInfo = document.createElement('div');
+                        cardInfo.classList.add('card-info');
+                        cardInfo.innerHTML = `Veľkosť: ${card.size.toUpperCase()} | Počet v hre: ${card.count}`;
+
+                        container.appendChild(cardElement);
+                        container.appendChild(cardInfo);
                     });
                 });
         });
