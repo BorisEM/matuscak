@@ -3,249 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matúš Čák Trenčiansky - Stolová hra</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Basic Layout</title>
     <style>
         body {
-            font-family: 'Manrope', sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
             margin: 0;
-            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             height: 100vh;
         }
-
-        h1 {
-            margin-top: 20px;
-            font-size: 2em;
-            color: #222;
-        }
-
-        #main-container {
+        .main-content {
             display: flex;
-            width: 90%;
-            height: 80vh;
-            gap: 20px;
+            flex-grow: 1;
         }
-
-        #game-container {
-            flex: 2;
+        .left-section {
+            flex: 4;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 30px;
         }
-
-        .card-area {
+        .opponent-hand, .player-hand {
             display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .castle-section {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+        }
+        .castle-pair {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
             gap: 10px;
-            margin: 10px 0;
+            width: 80px;
+            height: 50px;
         }
-
-        .card-placeholder, .card-back-placeholder {
+        .deck-section {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+        .deck, .discard {
             width: 100px;
-            height: 150px;
-            background-color: #ccc;
-            border: 2px solid #888;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9em;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-back-placeholder {
-            background-color: #888;
-            color: #fff;
-        }
-
-        .castle-area {
-            display: flex;
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .castle-placeholder {
-            width: 120px;
-            height: 100px;
+            height: 140px;
             background-color: #ddd;
-            border: 2px solid #999;
-            border-radius: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1em;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        .pile-area {
-            display: flex;
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .pile-placeholder {
+        .card {
             width: 120px;
             height: 160px;
-            background-color: #eee;
-            border: 2px dashed #aaa;
+            background-color: #ccc;
+            border: 2px solid #333;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1em;
-            text-align: center;
         }
-
-        #chat-container {
+        .card-small {
+            width: 60px;
+            height: 80px;
+            background-color: #ccc;
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-back {
+            width: 120px;
+            height: 160px;
+            background-color: #999;
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+        .right-section {
+            flex: 1;
+            background-color: #f8f8f8;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .control-section {
             flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 15px;
+        }
+        .status-bar {
+            background-color: #e0e0e0;
             padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
         }
-
-        #status-bar {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        #status-indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: red;
-            margin-right: 10px;
-        }
-
-        #chat-log {
-            flex: 1;
-            overflow-y: auto;
+        .button {
             padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #fafafa;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-
-        #message-input {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        input[type="text"] {
-            flex: 1;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: #fff;
+            font-size: 16px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            background-color: #4caf50;
+            color: white;
         }
-
-        button:hover {
-            background-color: #0056b3;
+        .button:disabled {
+            background-color: #9e9e9e;
+            cursor: not-allowed;
         }
-
-        .system-message {
-            color: #666;
-            font-style: italic;
+        .link-container {
+            display: flex;
+            gap: 10px;
         }
-
-        .player-message {
-            color: #007bff;
+        .link-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-
-        .opponent-message {
-            color: #d9534f;
+        .log-section {
+            background-color: #ffffff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            height: 100px;
+            overflow-y: auto;
+        }
+        .chat-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .chat-log {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow-y: auto;
+        }
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .chat-input button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
         }
     </style>
-    <script defer src="js/script.js"></script>
 </head>
 <body>
-    <h1>Vitaj v hre Matúš Čák Trenčiansky</h1>
-    <div id="main-container">
-        <!-- Hracia plocha (2/3 šírky) -->
-        <div id="game-container">
-            <div id="opponent-slots" class="card-area">
-                <!-- Dva sloty pre karty vedľa protihráča -->
-                <div class="card-placeholder">Slot 1</div>
-                <div class="card-placeholder">Slot 2</div>
+    <div class="main-content">
+        <div class="left-section">
+            <!-- Protihráčove hracie karty -->
+            <div class="opponent-hand">
+                <div class="card-back"></div>
+                <div class="card-back"></div>
+                <div class="card-back"></div>
+                <div class="card-back"></div>
+                <div class="card-back"></div>
+                <div class="card">1</div>
+                <div class="card">2</div>
             </div>
-            <div id="opponent-cards" class="card-area">
-                <!-- Karty protihráča (rub kariet) -->
-                <div class="card-back-placeholder">Karta</div>
-                <div class="card-back-placeholder">Karta</div>
-                <div class="card-back-placeholder">Karta</div>
-                <div class="card-back-placeholder">Karta</div>
-                <div class="card-back-placeholder">Karta</div>
+            <!-- Protihráčove hrady a kasteláni -->
+            <div class="castle-section">
+                <div class="castle-pair">
+                    <div class="card-small">Hrad</div>
+                    <div class="card-small">Kastelán</div>
+                </div>
+                <div class="castle-pair">
+                    <div class="card-small">Hrad</div>
+                    <div class="card-small">Kastelán</div>
+                </div>
+                <div class="castle-pair">
+                    <div class="card-small">Hrad</div>
+                    <div class="card-small">Kastelán</div>
+                </div>
             </div>
-            <div id="opponent-castles" class="castle-area">
-                <!-- Hrady protihráča -->
-                <div class="castle-placeholder">Hrad 1</div>
-                <div class="castle-placeholder">Hrad 2</div>
-                <div class="castle-placeholder">Hrad 3</div>
-                <div class="castle-placeholder">Hrad 4</div>
-                <div class="castle-placeholder">Hrad 5</div>
+            <!-- Kopa na ťahanie a kopa na odkladanie -->
+            <div class="deck-section">
+                <div class="deck">Kopa ťahania</div>
+                <div class="discard">Kopa odkladania</div>
             </div>
-            <div id="pile-area" class="pile-area">
-                <div class="pile-placeholder">Kopa na ťahanie</div>
-                <div class="pile-placeholder">Kopa na odkladanie</div>
+            <!-- Moje hrady a kasteláni -->
+            <div class="castle-section">
+                <div class="castle-pair">
+                    <div class="card-small">Hrad</div>
+                    <div class="card-small">Kastelán</div>
+                </div>
+                <div class="castle-pair">
+                    <div class="card-small">Hrad</div>
+                    <div class="card-small">Kastelán</div>
+                </div>
+                <div class="castle-pair">
+                    <div class="card-small">Hrad</div>
+                    <div class="card-small">Kastelán</div>
+                </div>
             </div>
-            <div id="player-castles" class="castle-area">
-                <!-- Hrady hráča -->
-                <div class="castle-placeholder">Hrad 1</div>
-                <div class="castle-placeholder">Hrad 2</div>
-                <div class="castle-placeholder">Hrad 3</div>
-                <div class="castle-placeholder">Hrad 4</div>
-                <div class="castle-placeholder">Hrad 5</div>
-            </div>
-            <div id="player-cards" class="card-area">
-                <!-- Karty hráča (líc kariet) -->
-                <div class="card-placeholder">Moja karta 1</div>
-                <div class="card-placeholder">Moja karta 2</div>
-                <div class="card-placeholder">Moja karta 3</div>
-                <div class="card-placeholder">Moja karta 4</div>
-                <div class="card-placeholder">Moja karta 5</div>
-            </div>
-            <div id="player-slots" class="card-area">
-                <!-- Dva sloty pre karty vedľa hráča -->
-                <div class="card-placeholder">Slot 1</div>
-                <div class="card-placeholder">Slot 2</div>
+            <!-- Moje hracie karty -->
+            <div class="player-hand">
+                <div class="card">1</div>
+                <div class="card">2</div>
+                <div class="card">3</div>
+                <div class="card">4</div>
+                <div class="card">5</div>
+                <div class="card">Záložná karta 1</div>
+                <div class="card">Záložná karta 2</div>
             </div>
         </div>
-
-        <!-- Pravá strana (1/3 šírky) -->
-        <div id="chat-container">
-            <div id="status-bar">
-                <div id="status-indicator"></div>
-                <span id="status-text">Stav pripojenia</span>
+        <div class="right-section">
+            <div class="control-section">
+                <h2>Nastavenia hry</h2>
+                <div class="status-bar" id="statusBar">Pripojenie na server: Odpojené</div>
+                <button class="button" id="invitePlayerButton">Pozvať hráča</button>
+                <div class="link-container">
+                    <input type="text" class="link-input" id="gameLink" placeholder="Vygenerovaný link" readonly>
+                    <button class="button" id="copyLinkButton">Kopírovať</button>
+                </div>
+                <button class="button" id="startGameButton">Spustiť hru</button>
+                <div class="log-section" id="gameLog">Log hry...</div>
             </div>
-            <button id="invite-player">Pozvať hráča</button>
-            <input type="text" id="game-link" placeholder="Link na chat" readonly>
-            <button id="start-game">Začať hru</button>
-            <div id="chat-log"></div>
-            <div id="message-input">
-                <input type="text" id="message" placeholder="Napíš správu...">
-                <button id="send-message">Odoslať</button>
+            <div class="chat-section">
+                <h2>Chat</h2>
+                <div class="chat-log" id="chatLog">Chat správy...</div>
+                <div class="chat-input">
+                    <input type="text" id="chatMessage" placeholder="Napíšte správu...">
+                    <button id="sendChatButton">Odoslať</button>
+                </div>
             </div>
         </div>
     </div>
