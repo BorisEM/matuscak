@@ -1,5 +1,4 @@
 let socket;
-
 let cardTypes = [];
 
 // Načítanie kariet z lokálnej JSON databázy
@@ -45,6 +44,7 @@ function connectToServer() {
     
     socket.addEventListener('open', () => {
         console.log('Pripojené k serveru');
+        updateStatusIndicator(true);
         renderChatMessage('Pripojené k serveru', 'system');
         notifyNewPlayer();
     });
@@ -63,6 +63,7 @@ function connectToServer() {
 
     socket.addEventListener('close', () => {
         console.log('Odpojené od servera');
+        updateStatusIndicator(false);
         renderChatMessage('Odpojené od servera', 'system');
     });
 
@@ -162,4 +163,9 @@ function renderChatMessage(message, sender) {
     newMessage.textContent = message;
     chatLog.appendChild(newMessage);
     chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+function updateStatusIndicator(connected) {
+    const statusIndicator = document.getElementById('status-indicator');
+    statusIndicator.style.backgroundColor = connected ? 'green' : 'red';
 }
