@@ -12,43 +12,37 @@
     <h1>Vitaj v hre Matúš Čák Trenčiansky</h1>
     <div id="main-container" style="display: flex; width: 100%; height: 90vh;">
         <!-- Hracia plocha (2/3 šírky) -->
-        <div id="game-container" style="flex: 2; display: flex; flex-direction: column;">
-            <div id="opponent-area">
-                <div id="opponent-castles" class="castle-area">
-                    <!-- Hrady protihráča -->
-                    <div class="castle-placeholder">Hrad 1</div>
-                    <div class="castle-placeholder">Hrad 2</div>
-                    <div class="castle-placeholder">Hrad 3</div>
-                    <div class="castle-placeholder">Hrad 4</div>
-                    <div class="castle-placeholder">Hrad 5</div>
-                </div>
-                <div id="opponent-cards" class="card-area">
-                    <!-- Karty protihráča (rub kariet) -->
-                    <div class="card-back-placeholder">Karta</div>
-                    <div class="card-back-placeholder">Karta</div>
-                    <div class="card-back-placeholder">Karta</div>
-                    <div class="card-back-placeholder">Karta</div>
-                    <div class="card-back-placeholder">Karta</div>
-                </div>
+        <div id="game-container" style="flex: 2; display: flex; flex-direction: column; align-items: center;">
+            <div id="opponent-cards" class="card-area" style="margin-bottom: 20px;">
+                <!-- Karty protihráča (rub kariet) -->
+                <div class="card-back-placeholder">Karta</div>
+                <div class="card-back-placeholder">Karta</div>
+                <div class="card-back-placeholder">Karta</div>
+                <div class="card-back-placeholder">Karta</div>
+                <div class="card-back-placeholder">Karta</div>
             </div>
-
-            <div id="pile-area" class="pile-area">
+            <div id="opponent-castles" class="castle-area" style="margin-bottom: 20px;">
+                <!-- Hrady protihráča -->
+                <div class="castle-placeholder">Hrad 1</div>
+                <div class="castle-placeholder">Hrad 2</div>
+                <div class="castle-placeholder">Hrad 3</div>
+                <div class="castle-placeholder">Hrad 4</div>
+                <div class="castle-placeholder">Hrad 5</div>
+            </div>
+            <div id="pile-area" class="pile-area" style="margin-bottom: 20px; display: flex; gap: 20px;">
                 <div class="pile-placeholder">Kopa na ťahanie</div>
                 <div class="pile-placeholder">Kopa na odkladanie</div>
             </div>
-
-            <div id="player-area">
-                <div id="player-castles" class="castle-area">
-                    <!-- Hrady hráča -->
-                    <div class="castle-placeholder">Hrad 1</div>
-                    <div class="castle-placeholder">Hrad 2</div>
-                    <div class="castle-placeholder">Hrad 3</div>
-                    <div class="castle-placeholder">Hrad 4</div>
-                    <div class="castle-placeholder">Hrad 5</div>
-                </div>
-                <div id="player-cards" class="card-area">
-                    <!-- Karty hráča (líc kariet) -->
-                </div>
+            <div id="player-castles" class="castle-area" style="margin-bottom: 20px;">
+                <!-- Hrady hráča -->
+                <div class="castle-placeholder">Hrad 1</div>
+                <div class="castle-placeholder">Hrad 2</div>
+                <div class="castle-placeholder">Hrad 3</div>
+                <div class="castle-placeholder">Hrad 4</div>
+                <div class="castle-placeholder">Hrad 5</div>
+            </div>
+            <div id="player-cards" class="card-area">
+                <!-- Karty hráča (líc kariet) -->
             </div>
         </div>
 
