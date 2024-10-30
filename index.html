@@ -4,14 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
-    <script src="js/deck.js"></script>  
+    <script src="js/deckManagement.js"></script>
+    <script src="js/playerActions.js"></script>
+    <script src="js/uiManagement.js"></script>
+    <script src="js/gameSetup.js"></script>
+
     <title>Basic Layout</title>
 </head>
 <body>
     <div class="main-content">
         <div class="left-section">
             
-            <!-- Sloty na odkladanie kariet pre súpera (vľavo od súperových kariet) -->
+            <!-- Súperove tlačidlo "Ukončiť ťah" -->
+            <button class="end-turn-button" id="opponentEndTurn" onclick="endTurn('opponent')">Ukončiť ťah</button>
+
+            <!-- Sloty na odkladanie kariet pre súpera -->
             <div class="discard-slots">
                 <div class="slot" id="opponentSlot1" ondrop="drop(event)" ondragover="allowDrop(event)">Slot 1</div>
                 <div class="slot" id="opponentSlot2" ondrop="drop(event)" ondragover="allowDrop(event)">Slot 2</div>
@@ -60,18 +67,20 @@
                 </div>
             </div>
 
-            <!-- Moje hracie karty -->
+            <!-- Moje hracie karty a tlačidlo "Ukončiť ťah" -->
             <div class="player-area">
                 <div class="player-hand" id="playerHand">
                     <!-- Hráčove karty sa tu pridávajú -->
                 </div>
 
-                <!-- Sloty na odkladanie kariet pre hráča (napravo od hráčových kariet) -->
+                <!-- Sloty na odkladanie kariet pre hráča -->
                 <div class="discard-slots">
                     <div class="slot" id="playerSlot1" ondrop="drop(event)" ondragover="allowDrop(event)">Slot 1</div>
                     <div class="slot" id="playerSlot2" ondrop="drop(event)" ondragover="allowDrop(event)">Slot 2</div>
                 </div>
             </div>
+
+            <button class="end-turn-button" id="playerEndTurn" onclick="endTurn('player')">Ukončiť ťah</button>
         </div>
 
         <!-- Kontextové menu pre kartu -->
@@ -90,7 +99,7 @@
                     <input type="text" class="link-input" id="gameLink" placeholder="Vygenerovaný link" readonly>
                     <button class="button" id="copyLinkButton">Kopírovať</button>
                 </div>
-                <button class="button" id="startGameButton" onclick="initializeDeck()">Spustiť hru</button>
+                <button class="button" id="startGameButton" onclick="startGame()">Spustiť hru</button>
                 <div class="log-section" id="gameLog">Log hry...</div>
             </div>
 

@@ -272,3 +272,35 @@ body, html {
 .card-menu button:hover {
     background-color: #f0f0f0;
 }
+
+.end-turn-button {
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    margin: 10px;
+}
+
+.end-turn-button:disabled {
+    background-color: #9e9e9e;
+    cursor: not-allowed;
+}
+
+}
+
+/* Štýl pre aktívne karty */
+.card.active {
+    border: 2px solid #4caf50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    cursor: pointer;
+}
+
+/* Štýl pre neaktívne karty a sloty */
+.card:not(.active), .slot:not(.active) {
+    opacity: 0.5;
+    pointer-events: none; /* Zakáže interakciu */
+}
+

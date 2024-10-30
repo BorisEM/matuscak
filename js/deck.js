@@ -3,26 +3,9 @@
 let gameDeck = []; // Uchováva zamiešaný balíček
 let discardDeck = []; // Uchováva karty v kope odkladania
 let selectedCardElement = null; // Uchováva referenciu na aktuálne vybranú kartu
+let activePlayer; // Uchováva, ktorý hráč je aktívny ('player' alebo 'opponent')
 
-// Funkcia na zobrazenie kontextového menu pri kliknutí na kartu
-function showCardMenu(event, cardElement) {
-    event.stopPropagation();
-    selectedCardElement = cardElement;
-
-    const menu = document.getElementById('cardMenu');
-    menu.style.display = 'block';
-    menu.style.left = `${event.pageX}px`;
-    menu.style.top = `${event.pageY}px`;
-}
-
-// Funkcia na skrytie kontextového menu
-function hideCardMenu() {
-    const menu = document.getElementById('cardMenu');
-    menu.style.display = 'none';
-    selectedCardElement = null;
-}
-
-// Funkcia na vypísanie správy do chatového logu
+/ Funkcia na vypísanie správy do chatového logu
 function logMessage(message) {
     const chatLog = document.getElementById('chatLog');
     if (chatLog) {
@@ -71,6 +54,94 @@ function dealCardsAtStart() {
     }
     logMessage("Na začiatku hry bolo rozdaných 5 kariet hráčovi aj súperovi.");
 }
+
+// Funkcia na inicializáciu hry s náhodným výberom začínajúceho hráča
+function initializeGame() {
+    // Náhodný výber aktívneho hráča
+    activePlayer = Math.random() < 0.5 ? 'player' : 'opponent';
+
+    // Nastavenie tlačidiel a povolených akcií podľa aktívneho hráča
+    if (activePlayer === 'player') {
+        document.getElementById('playerEndTurn').disabled = false;
+        document.getElementById('opponentEndTurn').disabled = true;
+    } else {
+        document.getElementById('playerEndTurn').disabled = true;
+        document.getElementById('opponentEndTurn').disabled = false;
+    }
+
+    logMessage(`Hru začína: ${activePlayer === 'player' ? 'Hráč' : 'Súper'}`);
+    togglePlayerActivity();
+}
+
+// Funkcia pre ukončenie ťahu
+function endTurn(player) {
+    if (player === activePlayer) {
+        logMessage(`Hráč ${player} ukončil svoj ťah.`);
+        
+        // Deaktivujeme tlačidlo pre aktuálneho hráča
+        document.getElementById(`${player}EndTurn`).disabled = true;
+        
+        // Prepneme aktívneho hráča
+        activePlayer = player === 'player' ? 'opponent' : 'player';
+
+        // Aktivujeme tlačidlo pre ďalšieho hráča
+        document.getElementById(`${activePlayer}EndTurn`).disabled = false;
+
+        // Aktivita hráča podľa aktuálneho ťahu
+        togglePlayerActivity();
+    }
+}
+
+// Funkcia na aktiváciu/deaktiváciu činností hráča
+function togglePlayerActivity() {
+    const playerCards = document.querySelectorAll('.player-hand .card');
+    const opponentCards = document.querySelectorAll('.opponent-hand .card');
+    const playerSlots = document.querySelectorAll('#playerSlot1, #playerSlot2');
+    const opponentSlots = document.querySelectorAll('#opponentSlot1, #opponentSlot2');
+
+    if (activePlayer === 'player') {
+        // Aktivovať hráčove karty a sloty
+        playerCards.forEach(card => card.classList.add('active'));
+        playerSlots.forEach(slot => slot.classList.add('active'));
+        
+        // Deaktivovať súperove karty a sloty
+        opponentCards.forEach(card => card.classList.remove('active'));
+        opponentSlots.forEach(slot => slot.classList.remove('active'));
+    } else {
+        // Aktivovať súperove karty a sloty
+        opponentCards.forEach(card => card.classList.add('active'));
+        opponentSlots.forEach(slot => slot.classList.add('active'));
+
+        // Deaktivovať hráčove karty a sloty
+        playerCards.forEach(card => card.classList.remove('active'));
+        playerSlots.forEach(slot => slot.classList.remove('active'));
+    }
+}
+
+// Zavoláme initializeGame po načítaní stránky
+document.addEventListener('DOMContentLoaded', () => {
+    initializeGame();
+});
+
+// Funkcia na zobrazenie kontextového menu pri kliknutí na kartu
+function showCardMenu(event, cardElement) {
+    event.stopPropagation();
+    selectedCardElement = cardElement;
+
+    const menu = document.getElementById('cardMenu');
+    menu.style.display = 'block';
+    menu.style.left = `${event.pageX}px`;
+    menu.style.top = `${event.pageY}px`;
+}
+
+// Funkcia na skrytie kontextového menu
+function hideCardMenu() {
+    const menu = document.getElementById('cardMenu');
+    menu.style.display = 'none';
+    selectedCardElement = null;
+}
+
+/
 
 // Funkcia na pridanie karty do ruky hráča alebo súpera
 function addCardToHand(card, handId, isOpponent) {
@@ -243,3 +314,45 @@ function reshuffleDiscardPile() {
     renderTopCard(); // Zobrazíme vrchnú kartu znovu po zamiešaní
     logMessage("Karty z kopy odkladania boli zamiešané a pridané do kopy ťahania.");
 }
+
+"use strict";
+
+let activePlayer = 'player'; // Na začiatku je hráč aktívny
+
+// Funkcia pre ukončenie ťahu
+function endTurn(player) {
+    if (player === activePlayer) {
+        logMessage(`Hráč ${player} ukončil svoj ťah.`);
+        
+        // Deaktivujeme tlačidlo pre aktuálneho hráča
+        document.getElementById(`${player}EndTurn`).disabled = true;
+        
+        // Prepneme aktívneho hráča
+        activePlayer = player === 'player' ? 'opponent' : 'player';
+
+        // Aktivujeme tlačidlo pre ďalšieho hráča
+        document.getElementById(`${activePlayer}EndTurn`).disabled = false;
+
+        // Aktivita hráča podľa aktuálneho ťahu
+        togglePlayerActivity();
+    }
+}
+
+// Funkcia na aktiváciu/deaktiváciu činností hráča
+function togglePlayerActivity() {
+    const playerCards = document.querySelectorAll('.player-hand .card');
+    const opponentCards = document.querySelectorAll('.opponent-hand .card');
+
+    if (activePlayer === 'player') {
+        playerCards.forEach(card => card.classList.add('active'));
+        opponentCards.forEach(card => card.classList.remove('active'));
+    } else {
+        playerCards.forEach(card => card.classList.remove('active'));
+        opponentCards.forEach(card => card.classList.add('active'));
+    }
+}
+
+// Na začiatku je aktívne tlačidlo hráča, tlačidlo súpera je deaktivované
+document.getElementById('playerEndTurn').disabled = false;
+document.getElementById('opponentEndTurn').disabled = true;
+
