@@ -1,5 +1,6 @@
 // uiManagement.js
 
+// Funkcia na logovanie správ
 function logMessage(message) {
     const chatLog = document.getElementById('chatLog');
     if (chatLog) {
@@ -11,18 +12,28 @@ function logMessage(message) {
     }
 }
 
+// Premenná pre vybratý prvok karty
+let selectedCardElement = null;
 
 // Funkcia na zobrazenie kontextového menu pri kliknutí na kartu
 function showCardMenu(event, cardElement) {
     event.stopPropagation();
-    selectedCardElement = cardElement;
+    selectedCardElement = cardElement; // Nastavenie vybranej karty
     const menu = document.getElementById('cardMenu');
-    menu.style.display = 'block';
-    menu.style.left = `${event.pageX}px`;
-    menu.style.top = `${event.pageY}px`;
+    
+    if (menu) {
+        menu.style.display = 'block';
+        menu.style.left = `${event.pageX}px`;
+        menu.style.top = `${event.pageY}px`;
+    } else {
+        console.error("Element 'cardMenu' nebol nájdený.");
+    }
 }
 
-// Skrytie kontextového menu
-document.addEventListener('click', () => {
-    document.getElementById('cardMenu').style.display = 'none';
+// Skrytie kontextového menu pri kliknutí mimo neho
+document.addEventListener('click', (event) => {
+    const menu = document.getElementById('cardMenu');
+    if (menu && event.target !== menu && !menu.contains(event.target)) {
+        menu.style.display = 'none';
+    }
 });

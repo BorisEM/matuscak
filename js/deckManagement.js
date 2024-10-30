@@ -3,6 +3,15 @@
 let gameDeck = [];
 let discardDeck = [];
 
+// Globálna definícia funkcie shuffleDeck pre opakované použitie
+function shuffleDeck(deck) {
+    for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    return deck;
+}
+
 // Funkcia na načítanie a inicializáciu balíčka kariet
 async function initializeDeck() {
     logMessage("Inicializujem balíček kariet...");
@@ -13,15 +22,6 @@ async function initializeDeck() {
         }
         const cards = await response.json();
 
-        // Priama definícia funkcie shuffleDeck pre zaistenie dostupnosti
-        function shuffleDeck(deck) {
-            for (let i = deck.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [deck[i], deck[j]] = [deck[j], deck[i]];
-            }
-            return deck;
-        }
-
         gameDeck = shuffleDeck(createGameDeck(cards));
         logMessage(`Balíček úspešne inicializovaný a premiešaný! Počet kariet v balíku: ${gameDeck.length}`);
         renderTopCard();
@@ -31,7 +31,6 @@ async function initializeDeck() {
     }
 }
 
-
 // Vytvorenie balíčka s kartami typu "L"
 function createGameDeck(cards) {
     return cards.filter(card => card.size.toLowerCase() === 'l').flatMap(card => Array(card.count).fill(card));
@@ -39,13 +38,25 @@ function createGameDeck(cards) {
 
 // Funkcia na ťahanie karty z balíčka
 function drawCardFromDeck() {
+    if (gameDeck.length === 0) {
+        logMessage("Kopa ťahania je prázdna. Skúšam zamiešať karty z kopy odkladania.");
+    }
     return gameDeck.length ? gameDeck.shift() : reshuffleDiscardPile();
 }
 
 // Zamiešanie karty z discardDeck späť do gameDeck
 function reshuffleDiscardPile() {
-    if (!discardDeck.length) return null;
+    if (!discardDeck.length) {
+        logMessage("Kopa odkladania je tiež prázdna. Nemožno ťahať ďalšie karty.");
+        return null;
+    }
     gameDeck = shuffleDeck([...discardDeck]);
     discardDeck = [];
+    logMessage("Karty z kopy odkladania boli zamiešané späť do kopy ťahania.");
     return drawCardFromDeck();
+}
+
+// Prázdna funkcia na logovanie, ak logMessage nie je definovaná globálne
+function logMessage(message) {
+    console.log(message); // Pre prípadné riešenie logovania priamo do konzoly
 }

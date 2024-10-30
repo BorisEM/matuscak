@@ -1,15 +1,8 @@
 // gameSetup.js
 
-// Globálna definícia funkcie shuffleDeck
-function shuffleDeck(deck) {
-    for (let i = deck.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [deck[i], deck[j]] = [deck[j], deck[i]];
-    }
-    return deck;
-}
+// Používanie shuffleDeck z deckManagement.js, preto túto funkciu nebudeme deklarovať znova
 
-// Zvyšok kódu, vrátane initializeDeck a startGame
+// Funkcia na načítanie a inicializáciu balíčka kariet
 async function initializeDeck() {
     logMessage("Inicializujem balíček kariet...");
     try {
@@ -27,17 +20,27 @@ async function initializeDeck() {
     }
 }
 
-// Funkcia startGame, ktorá zavolá initializeDeck a potom rozdá karty a inicializuje hru
+let activePlayer = 'player'; // Globálna premenná na uchovanie aktuálneho hráča
+
+// Funkcia na spustenie hry
 async function startGame() {
     logMessage("Spúšťam hru - inicializujem balíček...");
-    await initializeDeck(); // Inicializácia balíčka
+    await initializeDeck();
 
     logMessage("Inicializácia balíčka dokončená. Rozdávam karty...");
-    dealCardsAtStart(); // Rozdanie kariet hráčovi a súperovi
+    dealCardsAtStart();
 
-    logMessage("Karty boli úspešne rozdané. Spúšťam hru...");
-    initializeGame(); // Nastavenie hry (náhodný výber začínajúceho hráča a ďalšie prvky)
+    // Nastavenie začínajúceho hráča
+    activePlayer = 'player'; // Môžete zmeniť na 'opponent', ak má začať súper
+    logMessage(`Začína hráč: ${activePlayer}`);
+
+    // Nastavíme aktívne a neaktívne tlačidlá a karty
+    togglePlayerActivity();
+
+    logMessage("Karty boli úspešne rozdané. Hra začína!");
 }
+
+// Funkcia togglePlayerActivity sa už stará o aktiváciu/deaktiváciu tlačidiel
 
 
 // Funkcia na zobrazenie vrchnej karty z "Kopa ťahania"
@@ -45,38 +48,35 @@ function renderTopCard() {
     const deckSection = document.getElementById('drawPile');
     deckSection.innerHTML = ''; // Vymažeme predchádzajúci obsah
 
-    if (gameDeck.length > 0) {
-        const topCard = gameDeck[0]; // Vrchná karta balíčka
+    if (gameDeck && gameDeck.length > 0) {
+        const topCard = gameDeck[0];
         const cardElement = document.createElement('div');
         cardElement.classList.add('card-back');
-        cardElement.addEventListener('click', drawCard); // Pridáme event listener na kliknutie
+        cardElement.addEventListener('click', drawCard);
         deckSection.appendChild(cardElement);
     } else {
         logMessage("Kopa ťahania je prázdna. Miešame karty z kopy odkladania.");
-        reshuffleDiscardPile(); // Zamiešame karty z kopy odkladania do kopy ťahania
+        reshuffleDiscardPile();
     }
 }
 
-
-// Funkcia na vytiahnutie karty a pridanie do ruky
 function drawCard() {
-    const card = gameDeck.shift(); // Vytiahneme vrchnú kartu
+    const card = drawCardFromDeck(); // Získame kartu z balíčka
 
     if (card) {
-        // Pridáme kartu medzi hráčove karty
         const playerHand = document.getElementById('playerHand');
         const cardElement = document.createElement('div');
-        cardElement.classList.add('card');
-        cardElement.textContent = card.name; // Zobrazíme názov karty
+        cardElement.classList.add('card', 'active'); // Trieda 'active' pre povolenie interakcie
+        cardElement.textContent = card.name;
 
         // Nastavíme atribúty pre drag-and-drop
         cardElement.setAttribute('draggable', true);
         cardElement.setAttribute('data-card-name', card.name);
-        cardElement.addEventListener('dragstart', drag); // Event listener pre drag-and-drop
-        cardElement.addEventListener('click', (event) => showCardMenu(event, cardElement)); // Aktivujeme kontextové menu
+        cardElement.addEventListener('dragstart', drag);
+        cardElement.addEventListener('click', (event) => showCardMenu(event, cardElement));
 
         playerHand.appendChild(cardElement);
-        renderTopCard(); // Aktualizujeme vrchnú kartu po vytiahnutí
+        renderTopCard();
         logMessage(`Karta ${card.name} bola pridaná medzi tvoje karty.`);
     } else {
         logMessage("Nie je možné pridať kartu.");
@@ -100,7 +100,7 @@ function dealCardsAtStart() {
         const playerCard = gameDeck.shift();
         if (playerCard) {
             logMessage(`Pridávam kartu hráčovi: ${playerCard.name}`);
-            addCardToHand(playerCard, 'playerHand', false);
+            addCardToHand(playerCard, 'playerHand', false); // Pridáme kartu do hráčovej ruky s atribútmi
         } else {
             logMessage("Chyba: Nie je dostatok kariet v balíčku pre hráča.");
         }
@@ -109,7 +109,7 @@ function dealCardsAtStart() {
         const opponentCard = gameDeck.shift();
         if (opponentCard) {
             logMessage(`Pridávam kartu súperovi: ${opponentCard.name}`);
-            addCardToHand(opponentCard, 'opponentHand', true);
+            addCardToHand(opponentCard, 'opponentHand', true); // Pridáme kartu do súperovej ruky
         } else {
             logMessage("Chyba: Nie je dostatok kariet v balíčku pre súpera.");
         }
@@ -118,20 +118,27 @@ function dealCardsAtStart() {
     logMessage(`Počet kariet v balíčku po rozdávaní: ${gameDeck.length}`);
 }
 
-
-
+// Funkcia na pridanie karty do ruky hráča alebo súpera
 function addCardToHand(card, handId, isOpponent) {
     const hand = document.getElementById(handId);
     if (!hand) {
         logMessage(`Chyba: Element s id ${handId} nebol nájdený.`);
         return;
     }
-    
+
     const cardElement = document.createElement('div');
     cardElement.classList.add('card');
-    cardElement.textContent = isOpponent ? '🂠' : card.name;
+    if (!isOpponent) {
+        cardElement.classList.add('active'); // Pridá triedu active pre interaktívne karty hráča
+        cardElement.setAttribute('draggable', true); // Nastaví kartu ako presúvateľnú
+        cardElement.setAttribute('data-card-name', card.name);
+        cardElement.addEventListener('dragstart', drag); // Pridá event pre začiatok presunu
+        cardElement.addEventListener('click', (event) => showCardMenu(event, cardElement)); // Aktivuje kontextové menu na kliknutie
+        cardElement.textContent = card.name;
+    } else {
+        cardElement.textContent = '🂠'; // Skryje názov karty súpera
+    }
 
-    // Pridanie do ruky hráča alebo súpera
     hand.appendChild(cardElement);
     logMessage(`Karta ${card.name} bola pridaná do ${handId}.`);
 }
@@ -147,16 +154,13 @@ function endTurn(player) {
     }
 }
 
-// gameSetup.js
-
 // Funkcia na aktiváciu/deaktiváciu činností hráča
 function togglePlayerActivity() {
-    const playerCards = document.querySelectorAll('.player-hand .card');
-    const opponentCards = document.querySelectorAll('.opponent-hand .card');
+    const playerCards = document.querySelectorAll('#playerHand .card');
+    const opponentCards = document.querySelectorAll('#opponentHand .card');
     const playerSlots = document.querySelectorAll('#playerSlot1, #playerSlot2');
     const opponentSlots = document.querySelectorAll('#opponentSlot1, #opponentSlot2');
 
-    // Aktivácia/deaktivácia činností pre aktuálneho hráča
     if (activePlayer === 'player') {
         // Aktivujeme hráčove karty a sloty
         playerCards.forEach(card => card.classList.add('active'));
@@ -166,7 +170,6 @@ function togglePlayerActivity() {
         opponentCards.forEach(card => card.classList.remove('active'));
         opponentSlots.forEach(slot => slot.classList.remove('active'));
 
-        // Aktivujeme tlačidlo „Ukončiť ťah“ pre hráča a deaktivujeme pre súpera
         document.getElementById('playerEndTurn').disabled = false;
         document.getElementById('opponentEndTurn').disabled = true;
 
@@ -179,8 +182,8 @@ function togglePlayerActivity() {
         playerCards.forEach(card => card.classList.remove('active'));
         playerSlots.forEach(slot => slot.classList.remove('active'));
 
-        // Aktivujeme tlačidlo „Ukončiť ťah“ pre súpera a deaktivujeme pre hráča
         document.getElementById('opponentEndTurn').disabled = false;
         document.getElementById('playerEndTurn').disabled = true;
     }
 }
+
