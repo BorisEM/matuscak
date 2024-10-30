@@ -1,3 +1,4 @@
+/* Reset pre telo stránky */
 body, html {
     margin: 0;
     padding: 0;
@@ -9,10 +10,11 @@ body, html {
     display: flex;
 }
 
+/* Hlavná štruktúra obsahu */
 .main-content {
     display: flex;
-    width: 100vw; /* Zabezpečí, že hlavný obsah bude vždy zaberať 100% šírky */
-    height: 100vh; /* Zabezpečí 100% výšku */
+    width: 100vw;
+    height: 100vh;
 }
 
 .left-section {
@@ -23,7 +25,7 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    overflow-y: auto; /* Pridá posuvník, ak je obsah vyšší než výška */
+    overflow-y: auto;
 }
 
 .right-section {
@@ -34,16 +36,24 @@ body, html {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow-y: auto; /* Pridá posuvník pre pravú sekciu */
+    overflow-y: auto;
 }
 
-.opponent-hand, .player-hand, .deck-section {
+/* Sekcia hráčov */
+.player-hand, .deck-section, .opponent-hand {
     display: flex;
     justify-content: center;
     width: 100%;
-    gap: 20px; /* Dodatočný medzera pre jednotlivé sekcie */
+    gap: 20px;
 }
 
+/* Farba pre karty súpera */
+.opponent-hand .card {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/* Štýl pre balíček a kopu odkladania */
 .deck, .discard {
     width: 100px;
     height: 140px;
@@ -56,6 +66,7 @@ body, html {
     flex-direction: column;
 }
 
+/* Sekcia hradov a kastelánov */
 .castle-section {
     display: flex;
     justify-content: space-around;
@@ -64,15 +75,16 @@ body, html {
 
 .castle-pair {
     display: flex;
-    gap: 10px; /* Medzera medzi hradom a kastelánom */
+    gap: 10px;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
     align-items: center;
-    width: auto; /* Zabezpečí, že veľkosť sa prispôsobí obsahu */
-    height: 160px; /* Výška, aby zodpovedala výške karty */
+    width: auto;
+    height: 160px;
 }
 
+/* Malé karty pre hrad a kastelán */
 .card-small {
     width: 60px;
     height: 80px;
@@ -83,6 +95,8 @@ body, html {
     align-items: center;
     justify-content: center;
 }
+
+/* Zadná strana karty */
 .card-back {
     width: 120px;
     height: 160px;
@@ -91,6 +105,7 @@ body, html {
     border-radius: 10px;
 }
 
+/* Ovládacie prvky vpravo */
 .control-section {
     flex: 1;
     display: flex;
@@ -121,6 +136,7 @@ body, html {
     cursor: not-allowed;
 }
 
+/* Linkové tlačidlo a vstup */
 .link-container {
     display: flex;
     gap: 10px;
@@ -133,6 +149,7 @@ body, html {
     border-radius: 5px;
 }
 
+/* Sekcia logov a chatu */
 .log-section {
     background-color: #ffffff;
     padding: 10px;
@@ -180,20 +197,23 @@ body, html {
     cursor: pointer;
 }
 
+/* Oblasť hráča s kartami a slotmi */
 .player-area {
     display: flex;
     align-items: center;
-    gap: 20px; /* Medzera medzi sekciou hráčových kariet a slotmi */
+    gap: 20px;
 }
 
+/* Hráčova ruka */
 .player-hand {
     display: flex;
     gap: 20px;
 }
 
+/* Sekcia slotov pre hráčove odkladacie miesta */
 .discard-slots {
     display: flex;
-    gap: 20px; /* Medzera medzi slotmi */
+    gap: 20px;
 }
 
 .discard-slot {
@@ -207,13 +227,14 @@ body, html {
     justify-content: center;
     font-weight: bold;
     color: #666;
-    transition: background-color 0.2s ease; /* Animácia pre vizuálnu spätnú väzbu */
+    transition: background-color 0.2s ease;
 }
 
 .discard-slot.drag-over {
-    background-color: #e0e0e0; /* Vizuálna spätná väzba pri presúvaní */
+    background-color: #e0e0e0;
 }
 
+/* Karta pre hráča */
 .card {
     width: 120px;
     height: 160px;
@@ -226,9 +247,10 @@ body, html {
     cursor: grab;
 }
 
+/* Kontextové menu pre kartu */
 .card-menu {
     position: absolute;
-    display: none; /* Menu je skryté, kým ho neaktivujeme */
+    display: none;
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 5px;

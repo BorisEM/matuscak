@@ -10,16 +10,18 @@
 <body>
     <div class="main-content">
         <div class="left-section">
-            <!-- Protihráčove hracie karty -->
-            <div class="opponent-hand">
-                <div class="card-back"></div>
-                <div class="card-back"></div>
-                <div class="card-back"></div>
-                <div class="card-back"></div>
-                <div class="card-back"></div>
-                <div class="card">1</div>
-                <div class="card">2</div>
+            
+            <!-- Sloty na odkladanie kariet pre súpera (vľavo od súperových kariet) -->
+            <div class="discard-slots">
+                <div class="slot" id="opponentSlot1" ondrop="drop(event)" ondragover="allowDrop(event)">Slot 1</div>
+                <div class="slot" id="opponentSlot2" ondrop="drop(event)" ondragover="allowDrop(event)">Slot 2</div>
             </div>
+
+            <!-- Súperove karty -->
+            <div class="opponent-hand" id="opponentHand">
+                <!-- Súperove karty sa tu pridávajú -->
+            </div>
+
             <!-- Protihráčove hrady a kasteláni -->
             <div class="castle-section">
                 <div class="castle-pair">
@@ -35,15 +37,12 @@
                     <div class="card-small">Kastelán</div>
                 </div>
             </div>
-            <!-- Kopa na ťahanie a kopa na odkladanie -->
-          <div class="deck-section">
-    <!-- Kopa ťahania -->
-    <div class="deck" id="drawPile">Kopa ťahania</div>
-    <!-- Kopa odkladania -->
-    <div class="discard" id="discardPile">Kopa odkladania</div>
-</div>
 
-
+            <!-- Kopa na ťahanie a kopa odkladania (spoločná pre hráča a súpera) -->
+            <div class="deck-section">
+                <div class="deck" id="drawPile">Kopa ťahania</div>
+                <div class="discard-pile" id="discardPile">Kopa odkladania</div>
+            </div>
 
             <!-- Moje hrady a kasteláni -->
             <div class="castle-section">
@@ -60,22 +59,28 @@
                     <div class="card-small">Kastelán</div>
                 </div>
             </div>
-         <!-- Moje hracie karty a odkladacie sloty -->
+
+            <!-- Moje hracie karty -->
             <div class="player-area">
                 <div class="player-hand" id="playerHand">
                     <!-- Hráčove karty sa tu pridávajú -->
                 </div>
-                <!-- Odkladacie sloty -->
+
+                <!-- Sloty na odkladanie kariet pre hráča (napravo od hráčových kariet) -->
                 <div class="discard-slots">
-                    <div class="discard-slot" id="discardSlot1" ondrop="drop(event)" ondragover="allowDrop(event)">Slot 1</div>
-                    <div class="discard-slot" id="discardSlot2" ondrop="drop(event)" ondragover="allowDrop(event)">Slot 2</div>
+                    <div class="slot" id="playerSlot1" ondrop="drop(event)" ondragover="allowDrop(event)">Slot 1</div>
+                    <div class="slot" id="playerSlot2" ondrop="drop(event)" ondragover="allowDrop(event)">Slot 2</div>
                 </div>
             </div>
         </div>
+
+        <!-- Kontextové menu pre kartu -->
         <div id="cardMenu" class="card-menu">
             <button onclick="playCard()">Zahrať kartu</button>
             <button onclick="discardCard()">Odhodiť kartu</button>
         </div>
+
+        <!-- Pravá sekcia s ovládacími prvkami a chatom -->
         <div class="right-section">
             <div class="control-section">
                 <h2>Nastavenia hry</h2>
@@ -88,6 +93,8 @@
                 <button class="button" id="startGameButton" onclick="initializeDeck()">Spustiť hru</button>
                 <div class="log-section" id="gameLog">Log hry...</div>
             </div>
+
+            <!-- Sekcia chatu -->
             <div class="chat-section">
                 <h2>Chat</h2>
                 <div class="chat-log" id="chatLog">Chat správy...</div>

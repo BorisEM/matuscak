@@ -33,7 +33,6 @@ function logMessage(message) {
     }
 }
 
-
 // Funkcia na načítanie a inicializáciu balíčka kariet
 async function initializeDeck() {
     logMessage("Funkcia initializeDeck bola zavolaná.");
@@ -47,13 +46,49 @@ async function initializeDeck() {
 
         logMessage(`Balíček úspešne inicializovaný a premiešaný! Počet kariet v balíku: ${gameDeck.length}`);
         
+        dealCardsAtStart(); // Rozdá karty hráčovi a súperovi na začiatku hry
         renderTopCard();
     } catch (error) {
         console.error("Error loading deck:", error);
-        logMessage("Chyba pri načítaní balíčka!");
+        logMessage(`Chyba pri načítaní balíčka! Detail chyby: ${error.message}`);
     }
 }
 
+// Funkcia na rozdanie kariet na začiatku hry
+function dealCardsAtStart() {
+    for (let i = 0; i < 5; i++) {
+        // Rozdáme kartu hráčovi
+        const playerCard = gameDeck.shift();
+        if (playerCard) {
+            addCardToHand(playerCard, 'playerHand', false);
+        }
+
+        // Rozdáme kartu súperovi
+        const opponentCard = gameDeck.shift();
+        if (opponentCard) {
+            addCardToHand(opponentCard, 'opponentHand', false); // Viditeľné karty súpera
+        }
+    }
+    logMessage("Na začiatku hry bolo rozdaných 5 kariet hráčovi aj súperovi.");
+}
+
+// Funkcia na pridanie karty do ruky hráča alebo súpera
+function addCardToHand(card, handId, isOpponent) {
+    const hand = document.getElementById(handId);
+    const cardElement = document.createElement('div');
+    cardElement.classList.add('card');
+    cardElement.textContent = card.name; // Zobrazíme názov karty
+
+    // Nastavíme atribúty pre drag-and-drop a kontextové menu pre hráčove karty
+    if (handId === 'playerHand') {
+        cardElement.setAttribute('draggable', true);
+        cardElement.setAttribute('data-card-name', card.name);
+        cardElement.addEventListener('dragstart', drag);
+        cardElement.addEventListener('click', (event) => showCardMenu(event, cardElement));
+    }
+
+    hand.appendChild(cardElement);
+}
 
 // Funkcia na vytvorenie herného balíčka s kartami typu "L"
 function createGameDeck(cards) {
@@ -119,31 +154,15 @@ function drawCard() {
     }
 }
 
-// Funkcia, ktorá umožňuje drop na slot
-function allowDrop(event) {
-    event.preventDefault();
-    event.currentTarget.classList.add('drag-over'); // Pridáme vizuálnu spätnú väzbu
-}
-
 // Funkcia pre začiatok drag udalosti
 function drag(event) {
     event.dataTransfer.setData('text', event.target.getAttribute('data-card-name'));
 }
 
-// Funkcia na presun karty do jedného z odkladacích slotov
-function moveToDiscardPile(cardName) {
-    const discardPile = document.getElementById('discardPile');
-    
-    // Vymažeme obsah kopy odkladania a pridáme novú kartu
-    discardPile.innerHTML = ''; // Vymazanie predchádzajúceho obsahu
-
-    // Vytvoríme nový element pre kartu a pridáme ju na vrch kopy odkladania
-    const discardElement = document.createElement('div');
-    discardElement.classList.add('card');
-    discardElement.textContent = cardName;
-    discardPile.appendChild(discardElement);
-
-    logMessage(`Karta ${cardName} bola presunutá do kopy odkladania.`);
+// Funkcia, ktorá umožňuje drop na slot
+function allowDrop(event) {
+    event.preventDefault();
+    event.currentTarget.classList.add('drag-over'); // Pridáme vizuálnu spätnú väzbu
 }
 
 // Funkcia pre drop udalosti
@@ -174,7 +193,22 @@ function drop(event) {
     }
 }
 
-// Funkcia na zahrať kartu (táto funkcia môže vykonať ľubovoľnú akciu)
+// Funkcia na presun karty do spoločnej kopy odkladania
+function moveToDiscardPile(cardName) {
+    const discardPile = document.getElementById('discardPile');
+    
+    // Vymažeme obsah kopy odkladania a pridáme novú kartu
+    discardPile.innerHTML = ''; // Vymazanie predchádzajúceho obsahu
+
+    const discardElement = document.createElement('div');
+    discardElement.classList.add('card');
+    discardElement.textContent = cardName;
+    discardPile.appendChild(discardElement);
+
+    logMessage(`Karta ${cardName} bola presunutá do kopy odkladania.`);
+}
+
+// Funkcia na zahrať kartu
 function playCard() {
     if (selectedCardElement) {
         logMessage(`Karta ${selectedCardElement.textContent} bola zahratá.`);
@@ -183,8 +217,7 @@ function playCard() {
     }
 }
 
-
-/// Funkcia na odhodiť kartu (presunie kartu do kopy odkladania)
+// Funkcia na odhodiť kartu (presunie kartu do kopy odkladania)
 function discardCard() {
     if (selectedCardElement) {
         moveToDiscardPile(selectedCardElement.textContent); // Použije funkciu na presun do kopy odkladania
@@ -195,11 +228,6 @@ function discardCard() {
 
 // Pridáme event listener na skrytie menu pri kliknutí mimo neho
 document.addEventListener('click', hideCardMenu);
-
-// Funkcia na pridanie kontextového menu k vybranej karte
-function enableCardMenu(cardElement) {
-    cardElement.addEventListener('click', (event) => showCardMenu(event, cardElement));
-}
 
 // Funkcia na zamiešanie kariet z kopy odkladania späť do kopy ťahania
 function reshuffleDiscardPile() {
@@ -214,21 +242,4 @@ function reshuffleDiscardPile() {
 
     renderTopCard(); // Zobrazíme vrchnú kartu znovu po zamiešaní
     logMessage("Karty z kopy odkladania boli zamiešané a pridané do kopy ťahania.");
-}
-
-// Funkcia na presun karty do jedného z odkladacích slotov
-function moveToSlot(card, slotId) {
-    const slot = document.getElementById(slotId);
-
-    if (slot) {
-        slot.innerHTML = ''; // Vyprázdnime slot
-        const slotCard = document.createElement('div');
-        slotCard.classList.add('card');
-        slotCard.textContent = card.name; // Zobrazí názov karty
-        slot.appendChild(slotCard);
-
-        logMessage(`Karta ${card.name} bola presunutá do ${slotId}.`);
-    } else {
-        logMessage("Nie je možné presunúť kartu do slotu.");
-    }
 }
