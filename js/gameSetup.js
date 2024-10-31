@@ -21,6 +21,9 @@ async function initializeDeck() {
 }
 
 let activePlayer = 'player'; // Globálna premenná na uchovanie aktuálneho hráča
+let playerHand = [];
+let opponentHand = [];
+
 
 // Funkcia na spustenie hry
 async function startGame() {
@@ -59,6 +62,14 @@ function renderTopCard() {
         reshuffleDiscardPile();
     }
 }
+
+function drawCardFromDeck() {
+    if (gameDeck.length === 0) {
+        logMessage("Kopa ťahania je prázdna. Skúšam zamiešať karty z kopy odkladania.");
+    }
+    return gameDeck.length ? gameDeck.shift() : reshuffleDiscardPile();
+}
+
 
 function drawCard() {
     const card = drawCardFromDeck(); // Získame kartu z balíčka
@@ -128,19 +139,44 @@ function addCardToHand(card, handId, isOpponent) {
 
     const cardElement = document.createElement('div');
     cardElement.classList.add('card');
-    if (!isOpponent) {
-        cardElement.classList.add('active'); // Pridá triedu active pre interaktívne karty hráča
-        cardElement.setAttribute('draggable', true); // Nastaví kartu ako presúvateľnú
-        cardElement.setAttribute('data-card-name', card.name);
-        cardElement.addEventListener('dragstart', drag); // Pridá event pre začiatok presunu
-        cardElement.addEventListener('click', (event) => showCardMenu(event, cardElement)); // Aktivuje kontextové menu na kliknutie
-        cardElement.textContent = card.name;
+    cardElement.setAttribute('data-card-name', card.name);
+    cardElement.setAttribute('data-id', card.id); // Použitie jedinečného ID
+    cardElement.setAttribute('data-player', isOpponent ? 'opponent' : 'player');
+
+    cardElement.textContent = card.name;
+    cardElement.setAttribute('draggable', true);
+    cardElement.addEventListener('dragstart', drag);
+    cardElement.addEventListener('click', (event) => showCardMenu(event, cardElement));
+
+    // Pridanie do poľa správneho hráča
+    if (isOpponent) {
+        opponentHand.push(card);
+        logMessage(`Pridaná karta do ruky súpera: ${JSON.stringify(card)}`);
     } else {
-        cardElement.textContent = '🂠'; // Skryje názov karty súpera
+        playerHand.push(card);
+        logMessage(`Pridaná karta do ruky hráča: ${JSON.stringify(card)}`);
     }
 
     hand.appendChild(cardElement);
-    logMessage(`Karta ${card.name} bola pridaná do ${handId}.`);
+}
+
+function removeCardFromHand(cardId, player) {
+    const hand = player === 'player' ? playerHand : opponentHand;
+    const handElement = document.getElementById(player === 'player' ? 'playerHand' : 'opponentHand');
+
+    // Vyhľadanie a odstránenie karty v poli hráča na základe ID
+    const cardIndex = hand.findIndex(card => card.id === cardId);
+    if (cardIndex !== -1) {
+        hand.splice(cardIndex, 1);
+        logMessage(`Odstránená karta z poľa hráča ${player}: ID ${cardId}`);
+    }
+
+    // Odstránenie karty z DOM pomocou ID
+    const cardElement = handElement.querySelector(`[data-id="${cardId}"]`);
+    if (cardElement) {
+        handElement.removeChild(cardElement);
+        logMessage(`Odstránená karta z DOM hráča ${player}: ID ${cardId}`);
+    }
 }
 
 
@@ -148,11 +184,44 @@ function addCardToHand(card, handId, isOpponent) {
 // Funkcia pre ukončenie ťahu
 function endTurn(player) {
     if (player === activePlayer) {
+        // Prepíname aktívneho hráča
         activePlayer = player === 'player' ? 'opponent' : 'player';
-        logMessage(`Hráč ${player} ukončil svoj ťah.`);
+        logMessage(`Hráč ${player} ukončil svoj ťah. Teraz je na ťahu: ${activePlayer}`);
+
+        // Doplníme karty na ruke pre nového aktívneho hráča
+        refillHandToFive(activePlayer);
+
         togglePlayerActivity();
     }
 }
+
+// Funkcia na doplnenie kariet na ruke na počet 5 s podrobným logovaním
+function refillHandToFive(player) {
+    const handId = player === 'player' ? 'playerHand' : 'opponentHand';
+    const currentHand = player === 'player' ? playerHand : opponentHand;
+
+    logMessage(`Pred doplnením - počet kariet hráča ${player}: ${currentHand.length}`);
+
+    for (let i = currentHand.length; i < 5; i++) {
+        const newCard = drawCardFromDeck();
+        if (newCard) {
+            addCardToHand(newCard, handId, player === 'opponent');
+            logMessage(`Dopĺňanie karty: ${JSON.stringify({
+                name: newCard.name,
+                id: newCard.id,
+                player: player
+            })}`);
+        } else {
+            logMessage("Kopa na ťahanie je prázdna, nemožno doplniť karty.");
+            break;
+        }
+    }
+
+    logMessage(`Po doplnení - počet kariet hráča ${player}: ${currentHand.length}`);
+}
+
+
+
 
 // Funkcia na aktiváciu/deaktiváciu činností hráča
 function togglePlayerActivity() {
@@ -175,7 +244,10 @@ function togglePlayerActivity() {
 
     } else {
         // Aktivujeme súperove karty a sloty
-        opponentCards.forEach(card => card.classList.add('active'));
+        opponentCards.forEach(card => {
+            card.classList.add('active');
+            card.setAttribute('draggable', true); // Umožníme presúvanie
+        });
         opponentSlots.forEach(slot => slot.classList.add('active'));
 
         // Deaktivujeme hráčove karty a sloty
@@ -186,4 +258,3 @@ function togglePlayerActivity() {
         document.getElementById('playerEndTurn').disabled = true;
     }
 }
-

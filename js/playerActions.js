@@ -21,7 +21,14 @@ function drop(event) {
     const draggedCard = document.querySelector(`.card[data-card-name="${cardName}"]`);
     const discardSlot = event.target;
 
+    // Kontrola, či slot už obsahuje kartu
     if (discardSlot && discardSlot.classList.contains("discard-slot")) {
+        // Ak slot už má kartu, zablokuje pridanie ďalšej
+        if (discardSlot.children.length > 0) {
+            logMessage("Slot už obsahuje kartu, nie je možné pridať ďalšiu.");
+            return;
+        }
+
         discardSlot.classList.remove("drag-over");
 
         if (draggedCard) {
@@ -36,6 +43,7 @@ function drop(event) {
         }
     }
 }
+
 
 // Skrytie štýlov po dokončení presunu
 document.addEventListener("dragend", (event) => {
@@ -71,4 +79,20 @@ function playCard() {
     } else {
         logMessage("Žiadna karta nebola vybraná na zahranie.");
     }
+}
+
+function moveCardToSlot(cardElement, slotId) {
+    const player = cardElement.getAttribute('data-player');
+    const cardId = cardElement.getAttribute('data-id');
+
+    const slot = document.getElementById(slotId);
+    if (!slot || slot.children.length > 0) {
+        logMessage("Slot už obsahuje kartu alebo neexistuje.");
+        return;
+    }
+
+    slot.appendChild(cardElement);
+    logMessage(`Karta ${cardElement.getAttribute('data-card-name')} presunutá do slotu hráča ${player}: ID ${cardId}`);
+
+    removeCardFromHand(cardId, player);
 }
